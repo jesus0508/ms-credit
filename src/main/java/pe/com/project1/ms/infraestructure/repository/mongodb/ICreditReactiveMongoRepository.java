@@ -7,6 +7,6 @@ import reactor.core.publisher.Flux;
 
 public interface ICreditReactiveMongoRepository extends ReactiveMongoRepository<CreditDao, String> {
 
-	Flux<CreditDao> findByCustomerId();
+	Flux<CreditDao> findByCustomerId(String customerId);
 
 }

@@ -3,8 +3,8 @@ package pe.com.project1.ms.infraestructure.repository.mongodb;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import pe.com.project1.ms.application.model.CreditRepository;
-import pe.com.project1.ms.domain.Credit;
+import pe.com.project1.ms.application.repository.CreditRepository;
+import pe.com.project1.ms.domain.credit.Credit;
 import pe.com.project1.ms.infraestructure.model.dao.CreditDao;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,13 +16,17 @@ public class CreditMongoReactiveRepository implements CreditRepository {
 	private final ICreditReactiveMongoRepository creditReactiveMongoRepository;
 	
 	@Override
-	public Flux<Credit> findAllByCustomerId() {
-		return creditReactiveMongoRepository.findByCustomerId().map(this::mapCreditDaoToCredit);
+	public Flux<Credit> findAllByCustomerId(String customerId) {
+		return creditReactiveMongoRepository
+				.findByCustomerId(customerId)
+				.map(this::mapCreditDaoToCredit);
 	}
 
 	@Override
 	public Mono<Credit> save(Credit credit) {
-		return null;
+		return creditReactiveMongoRepository
+				.save(new CreditDao(credit))
+				.map(this::mapCreditDaoToCredit);
 	}
 
 	private Credit mapCreditDaoToCredit(CreditDao creditDao) {
@@ -32,7 +36,6 @@ public class CreditMongoReactiveRepository implements CreditRepository {
 		credit.setCurrentBalance(creditDao.getCurrentBalance());
 		credit.setCustomerId(creditDao.getCustomerId());
 		credit.setRegistrationDate(creditDao.getRegistrationDate());
-		credit.setCreditType(creditDao.getCreditType());
 		return credit;
 	}
 	

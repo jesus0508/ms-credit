@@ -6,11 +6,16 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import pe.com.project1.ms.domain.CreditType;
+import lombok.NoArgsConstructor;
+import pe.com.project1.ms.domain.credit.Credit;
+import pe.com.project1.ms.domain.credit.CreditType;
 
 @Data
-@Document("creditDao")
+@AllArgsConstructor
+@NoArgsConstructor
+@Document("credits")
 public class CreditDao {
 	@Id
 	private String id;
@@ -19,4 +24,13 @@ public class CreditDao {
 	private String customerId;
 	private LocalDateTime registrationDate;
 	private CreditType creditType;
+	
+	public CreditDao(Credit credit) {
+		this.id = credit.getId();
+		this.principal = credit.getPrincipal();
+		this.currentBalance = credit.getCurrentBalance();
+		this.customerId = credit.getCustomerId();
+		this.registrationDate = credit.getRegistrationDate();
+		this.creditType = credit.getCreditType();
+	}
 }
