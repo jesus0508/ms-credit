@@ -27,7 +27,7 @@ services:
     container_name: credits
     #restart: on-failure
     ports:
-      - "${APP_PORT:-8081}:${APP_PORT_CONTAINER:-8081}"
+      - "${APP_PORT:-8083}:${APP_PORT_CONTAINER:-8081}"
     environment:
       SERVER_PORT: $APP_PORT_CONTAINER
       LOG_PATH: $LOG_PATH
